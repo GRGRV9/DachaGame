@@ -53,7 +53,12 @@ public class EnemyController : MonoBehaviour
             currentHealth -= damageCount;
         }
         Debug.Log("Enemy current health: " + currentHealth + " Damage count: " + damageCount);
-        yield return new WaitForSeconds(1f); // продолжить примерно через 100ms
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+        yield return new WaitForSeconds(0.5f); // продолжить примерно через 100ms
         isDamaged = false;
     }
 

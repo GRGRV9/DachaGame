@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RayController : MonoBehaviour
@@ -10,16 +8,32 @@ public class RayController : MonoBehaviour
     public EnemyController enemy;
     bool dachaInRay = true;
     bool enemyInRay = false;
+    bool isAggressive = false;
 
     private void Update()
     {
         if (dachaInRay)
         {
-            dacha.Heal(healingRate);
+            if (isAggressive == false)
+            {
+                dacha.Heal(healingRate);
+            }
+            else
+            {
+                dacha.DealRateDamage(damageRate);
+            }
+
         }
         if (enemyInRay)
         {
-            enemy.DealDamage(damageRate);
+            if (isAggressive == true)
+            {
+                enemy.DealDamage(damageRate);
+            }
+        }
+        if (Input.GetKeyDown("space"))
+        {
+            ChangeAggressionMode();
         }
     }
 
@@ -48,5 +62,27 @@ public class RayController : MonoBehaviour
             enemyInRay = true;
             enemy = collision.gameObject.GetComponent<EnemyController>();
         }
+    }
+
+    public void ChangeAggressionMode()
+    {
+        if (isAggressive == false)
+        {
+            TurnAggressiveModeOn();
+        }
+        else
+        {
+            TurnAggressiveModeOff();
+        }
+        Debug.Log(isAggressive);
+    }
+
+    public void TurnAggressiveModeOn()
+    {
+        isAggressive = true;
+    }
+    public void TurnAggressiveModeOff()
+    {
+        isAggressive = false;
     }
 }

@@ -7,6 +7,7 @@ public class DachaController : MonoBehaviour
     public float maxHealth = 100;
     public float currentHealth;
     private bool isHealed = false;
+    private bool isDamaged;
     private float missingHealth;
     private bool isDead;
 
@@ -31,11 +32,21 @@ public class DachaController : MonoBehaviour
         }
     }
 
+    public void DealRateDamage(float damageCount)
+    {
+        if (isDamaged == false)
+        {
+            StartCoroutine(DamageCoroutine(damageCount));
+        }
+    }
+
     private void Die()
     {
         Debug.Log("Game Over");
         currentHealth = 0;
         isDead = true;
+        Time.timeScale = 0;
+        Destroy(gameObject);
     }
 
     IEnumerator HealCoroutine(float healCount)
@@ -54,6 +65,27 @@ public class DachaController : MonoBehaviour
         Debug.Log("Dacha current health: " + currentHealth + " Damage count: " + healCount);
         yield return new WaitForSeconds(1f); // продолжить примерно через 100ms
         isHealed = false;
+    }
+
+    IEnumerator DamageCoroutine(float damageCount)
+    {
+        isDamaged = true;
+
+        if (currentHealth < damageCount)
+        {
+            currentHealth -= currentHealth;
+        }
+        else
+        {
+            currentHealth -= damageCount;
+        }
+        Debug.Log("Dacha health: " + currentHealth + " Damage count: " + damageCount);
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+        yield return new WaitForSeconds(0.5f); // продолжить примерно через 100ms
+        isDamaged = false;
     }
 
     public float GetCurrentHealth()
