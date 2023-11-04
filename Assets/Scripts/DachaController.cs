@@ -8,14 +8,16 @@ public class DachaController : MonoBehaviour
     public float currentHealth;
     private bool isHealed = false;
     private float missingHealth;
+    private bool isDead;
 
     private void Start()
     {
         currentHealth = 50; // Устанавливаем на старте текущее здоровье равным максимальному
+        isDead = false;
     }
     public void Heal(float healCount)
     {
-        if (isHealed == false)
+        if (isHealed == false && isDead == false)
         {
             StartCoroutine(HealCoroutine(healCount));
         }
@@ -32,6 +34,8 @@ public class DachaController : MonoBehaviour
     private void Die()
     {
         Debug.Log("Game Over");
+        currentHealth = 0;
+        isDead = true;
     }
 
     IEnumerator HealCoroutine(float healCount)

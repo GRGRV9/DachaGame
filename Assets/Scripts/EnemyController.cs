@@ -26,7 +26,8 @@ public class EnemyController : MonoBehaviour
 
     private void Die()
     {
-        Destroy(gameObject);
+        var parentGameObject = transform.parent.gameObject;
+        Destroy(parentGameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
