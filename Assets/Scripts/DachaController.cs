@@ -13,7 +13,7 @@ public class DachaController : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = 50; // Устанавливаем на старте текущее здоровье равным максимальному
+        currentHealth = maxHealth; // Устанавливаем на старте текущее здоровье равным максимальному
         isDead = false;
     }
     public void Heal(float healCount)
