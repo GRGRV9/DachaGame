@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Dacha
+  - Enemy
   layers:
   - Default
   - TransparentFX

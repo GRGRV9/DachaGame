@@ -47,7 +47,7 @@ public class DachaController : MonoBehaviour
             healCount = missingHealth;
             currentHealth += healCount;
         }
-        Debug.Log(currentHealth);
+        Debug.Log("Dacha current health: " + currentHealth + " Damage count: " + healCount);
         yield return new WaitForSeconds(1f); // продолжить примерно через 100ms
         isHealed = false;
     }
