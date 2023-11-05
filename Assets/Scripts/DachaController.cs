@@ -84,7 +84,7 @@ public class DachaController : MonoBehaviour
         {
             Die();
         }
-        yield return new WaitForSeconds(0.5f); // продолжить примерно через 100ms
+        yield return new WaitForSeconds(0.1f); // продолжить примерно через 100ms
         isDamaged = false;
     }
 

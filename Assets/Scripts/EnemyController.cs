@@ -58,7 +58,7 @@ public class EnemyController : MonoBehaviour
         {
             Die();
         }
-        yield return new WaitForSeconds(0.5f); // продолжить примерно через 100ms
+        yield return new WaitForSeconds(0.1f);
         isDamaged = false;
     }
 

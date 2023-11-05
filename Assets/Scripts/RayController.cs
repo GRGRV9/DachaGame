@@ -129,14 +129,17 @@ public class RayController : MonoBehaviour
 
     public void TurnAggressiveModeOn()
     {
-        isAggressive = true;
+        colorChangeSpeed = 3;
+        StartCoroutine(ChangeAggressiveModeWithDelay(colorChangeSpeed, true));
         targetSunColor = aggressiveSunColor;
         targetRayColor = aggressiveRayColor;
         targetRayScale = aggressiveRayScale;
-        StartCoroutine(StartSounds());
+        StartCoroutine(StartSounds());       
     }
     public void TurnAggressiveModeOff()
     {
+        colorChangeSpeed = 1;
+        StartCoroutine(ChangeAggressiveModeWithDelay(colorChangeSpeed, false));
         StopCoroutine(StartSounds());
         isAggressive = false;
         targetSunColor = startSunColor;
@@ -154,5 +157,12 @@ public class RayController : MonoBehaviour
         startRay.Play();
         yield return new WaitForSeconds(2.17f);
         idleRay.Play();
+    }
+
+    IEnumerator ChangeAggressiveModeWithDelay(float multiplier, bool mode)
+    {
+        yield return new WaitForSeconds(1.5f / multiplier);
+        isAggressive = mode;
+        Debug.Log("Aggressive Mode :" + isAggressive);
     }
 }
