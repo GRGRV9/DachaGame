@@ -9,7 +9,7 @@ public class DachaController : MonoBehaviour
     private bool isHealed = false;
     private bool isDamaged;
     private float missingHealth;
-    private bool isDead;
+    public bool isDead;
 
     private void Start()
     {
@@ -91,5 +91,10 @@ public class DachaController : MonoBehaviour
     public float GetCurrentHealth()
     {
         return currentHealth;
+    }
+
+    public bool GetIsDead()
+    {
+        return isDead;
     }
 }
