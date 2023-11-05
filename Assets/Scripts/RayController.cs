@@ -42,7 +42,6 @@ public class RayController : MonoBehaviour
         aggressiveRayColor = new Color(1f, 0.2f, 0.2f, startRayColor.a);
 
         startRayScale = transform.localScale;
-        Debug.Log("Scale: " + startRayScale);
         aggressiveRayScale = new Vector3(0.4f, 0.75f, 1.0f);
         targetRayScale = startRayScale;
     }
@@ -163,6 +162,10 @@ public class RayController : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f / multiplier);
         isAggressive = mode;
-        Debug.Log("Aggressive Mode :" + isAggressive);
+    }
+
+    public void DeleteFromEnemiesList (EnemyController enemy)
+    {
+        enemiesList.Remove(enemy);
     }
 }

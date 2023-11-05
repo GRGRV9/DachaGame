@@ -1,19 +1,20 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
     public float maxHealth = 100;
     private float currentHealth;
+    private EnemyController thisEnemyController;
     DachaController dacha;
 
     bool isDamaged;
-    float missingHealth;
 
     void Start()
     {
         currentHealth = maxHealth;
+        thisEnemyController = gameObject.GetComponent<EnemyController>();
+
     }
 
     public void DealDamage(float damageCount)
@@ -27,6 +28,7 @@ public class EnemyController : MonoBehaviour
     private void Die()
     {
         var parentGameObject = transform.parent.gameObject;
+        GameObject.FindGameObjectWithTag("Ray").GetComponent<RayController>().DeleteFromEnemiesList(thisEnemyController);
         Destroy(parentGameObject);
     }
 
@@ -53,7 +55,6 @@ public class EnemyController : MonoBehaviour
         {            
             currentHealth -= damageCount;
         }
-        Debug.Log("Enemy current health: " + currentHealth + " Damage count: " + damageCount);
 
         if (currentHealth <= 0)
         {
@@ -67,11 +68,5 @@ public class EnemyController : MonoBehaviour
     public float GetCurrentHealth()
     {
         return currentHealth;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
