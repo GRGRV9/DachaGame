@@ -87,7 +87,6 @@ public class RayController : MonoBehaviour
         {
             TurnAggressiveModeOff();
         }
-        Debug.Log(isAggressive);
     }
 
     public void TurnAggressiveModeOn()
