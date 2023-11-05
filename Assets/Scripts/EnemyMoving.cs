@@ -12,6 +12,12 @@ public class EnemyMoving : MonoBehaviour
         {
             rotationSpeed = rotationSpeed * -1;
         }
+        else
+        {
+            Debug.Log(GetComponentInChildren<SpriteRenderer>().flipX);
+            GetComponentInChildren<SpriteRenderer>().flipX = true;
+            Debug.Log(GetComponentInChildren<SpriteRenderer>().flipX);
+        }
     }
 
     void Update()
