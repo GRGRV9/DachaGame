@@ -137,6 +137,7 @@ public class RayController : MonoBehaviour
     }
     public void TurnAggressiveModeOff()
     {
+        StopCoroutine(StartSounds());
         isAggressive = false;
         targetSunColor = startSunColor;
         targetRayColor = startRayColor;
