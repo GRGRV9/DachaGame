@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class RayController : MonoBehaviour
 {
-    public float healingRate = 1;
-    public float damageRate = 1;
+    public float healingRate;
+    public float damageRate;
     public DachaController dacha;
     public List<EnemyController> enemiesList;
     bool dachaInRay = true;

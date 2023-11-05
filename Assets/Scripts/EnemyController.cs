@@ -43,13 +43,14 @@ public class EnemyController : MonoBehaviour
     IEnumerator DamageCoroutine(float damageCount)
     {
         isDamaged = true;
+        damageCount = damageCount / 10;
 
         if (currentHealth < damageCount)
         {
             currentHealth -= currentHealth;
         }
         else
-        {
+        {            
             currentHealth -= damageCount;
         }
         Debug.Log("Enemy current health: " + currentHealth + " Damage count: " + damageCount);
@@ -58,6 +59,7 @@ public class EnemyController : MonoBehaviour
         {
             Die();
         }
+        
         yield return new WaitForSeconds(0.1f);
         isDamaged = false;
     }
