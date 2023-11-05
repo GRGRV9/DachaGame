@@ -14,9 +14,7 @@ public class EnemyMoving : MonoBehaviour
         }
         else
         {
-            Debug.Log(GetComponentInChildren<SpriteRenderer>().flipX);
             GetComponentInChildren<SpriteRenderer>().flipX = true;
-            Debug.Log(GetComponentInChildren<SpriteRenderer>().flipX);
         }
     }
 

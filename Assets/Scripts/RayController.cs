@@ -11,6 +11,7 @@ public class RayController : MonoBehaviour
     bool dachaInRay = true;
     bool enemyInRay = false;
     bool isAggressive = false;
+    bool isChangingMode = false;
     public AudioSource startRay;
     public AudioSource idleRay;
     public AudioSource stopRay;
@@ -44,6 +45,8 @@ public class RayController : MonoBehaviour
         startRayScale = transform.localScale;
         aggressiveRayScale = new Vector3(0.4f, 0.75f, 1.0f);
         targetRayScale = startRayScale;
+
+        idleRay.volume = 0f;
     }
 
     private void Update()
@@ -71,6 +74,7 @@ public class RayController : MonoBehaviour
                 
             }
         }
+
         if (Input.GetKeyDown("space"))
         {
             ChangeAggressionMode();
@@ -116,52 +120,54 @@ public class RayController : MonoBehaviour
 
     public void ChangeAggressionMode()
     {
-        if (isAggressive == false)
+        if (isAggressive == false && isChangingMode == false)
         {
-            TurnAggressiveModeOn();
+            TurnAggressiveModeOn();            
         }
-        else
+        else if (isAggressive = true && isChangingMode == false)
         {
-            TurnAggressiveModeOff();
-        }
+            TurnAggressiveModeOff();            
+        }        
     }
 
     public void TurnAggressiveModeOn()
-    {
+    {        
         colorChangeSpeed = 3;
         StartCoroutine(ChangeAggressiveModeWithDelay(colorChangeSpeed, true));
         targetSunColor = aggressiveSunColor;
         targetRayColor = aggressiveRayColor;
         targetRayScale = aggressiveRayScale;
-        StartCoroutine(StartSounds());       
+        StartCoroutine(StartSounds());
     }
     public void TurnAggressiveModeOff()
     {
         colorChangeSpeed = 1;
-        StartCoroutine(ChangeAggressiveModeWithDelay(colorChangeSpeed, false));
         StopCoroutine(StartSounds());
+        StartCoroutine(ChangeAggressiveModeWithDelay(colorChangeSpeed, false));        
         isAggressive = false;
         targetSunColor = startSunColor;
         targetRayColor = startRayColor;
         targetRayScale = startRayScale;
-        idleRay.Stop();
+        idleRay.volume = 0f;
         startRay.Stop();
-        stopRay.Play();        
+        stopRay.Play();
     }
 
     IEnumerator StartSounds()
     {
         stopRay.Stop();
-        idleRay.Stop();
+        idleRay.volume = 0f;
         startRay.Play();
-        yield return new WaitForSeconds(2.17f);
-        idleRay.Play();
+        yield return new WaitForSeconds(0.53f);
+        idleRay.volume = 0.1f;
     }
 
     IEnumerator ChangeAggressiveModeWithDelay(float multiplier, bool mode)
     {
+        isChangingMode = true;
         yield return new WaitForSeconds(1.5f / multiplier);
         isAggressive = mode;
+        isChangingMode = false;
     }
 
     public void DeleteFromEnemiesList (EnemyController enemy)
