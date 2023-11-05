@@ -8,10 +8,12 @@ public class HealthUI : MonoBehaviour
     public TextMeshProUGUI textMeshPro; // Это public поле для TextMeshPro компонента.
 
     public DachaController dacha;
+
+    bool HeartScale;
     // Start is called before the first frame update
     void Start()
     {
-        textMeshPro = gameObject.GetComponent<TextMeshProUGUI>();
+        textMeshPro = gameObject.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
