@@ -155,16 +155,15 @@ public class DachaController : MonoBehaviour
 
     IEnumerator Frosting()
     {
-        Debug.Log("Frosting: 5");
-        yield return new WaitForSeconds(1f);
-        Debug.Log("Frosting: 4");
-        yield return new WaitForSeconds(1f);
-        Debug.Log("Frosting: 3");
-        yield return new WaitForSeconds(1f);
-        Debug.Log("Frosting: 2");
-        yield return new WaitForSeconds(1f);
-        Debug.Log("Frosting: 1");
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
+        isFrosted = true;
+        yield return new WaitForSeconds(0.1f);
+        isFrosted = false;
+        yield return new WaitForSeconds(0.9f);
+        isFrosted = true;
+        yield return new WaitForSeconds(0.1f);
+        isFrosted = false;
+        yield return new WaitForSeconds(0.9f);        
         isFrosted = true;
     }
 }

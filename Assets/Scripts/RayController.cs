@@ -174,4 +174,9 @@ public class RayController : MonoBehaviour
     {
         enemiesList.Remove(enemy);
     }
+
+    public bool GetIsAggressive()
+    {
+        return isAggressive;
+    }
 }
