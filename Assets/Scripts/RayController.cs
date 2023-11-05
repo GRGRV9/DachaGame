@@ -15,6 +15,38 @@ public class RayController : MonoBehaviour
     public AudioSource idleRay;
     public AudioSource stopRay;
 
+    public SpriteRenderer sunSprite;
+    public SpriteRenderer raySprite;
+    private Color startSunColor;
+    private Color aggressiveSunColor;
+    private Color targetSunColor;
+    private Color startRayColor;
+    private Color aggressiveRayColor;
+    private Color targetRayColor;
+    public float colorChangeSpeed;
+
+    private Vector3 startRayScale;
+    private Vector3 aggressiveRayScale;
+    private Vector3 targetRayScale;
+
+
+    private void Start()
+    {
+        startSunColor = sunSprite.color;
+        targetSunColor = startSunColor;
+
+        startRayColor = raySprite.color;
+        targetRayColor = startRayColor;
+
+        aggressiveSunColor = new Color(1f, 0.2f, 0.2f, startSunColor.a);
+        aggressiveRayColor = new Color(1f, 0.2f, 0.2f, startRayColor.a);
+
+        startRayScale = transform.localScale;
+        Debug.Log("Scale: " + startRayScale);
+        aggressiveRayScale = new Vector3(0.4f, 0.75f, 1.0f);
+        targetRayScale = startRayScale;
+    }
+
     private void Update()
     {
         if (dachaInRay)
@@ -44,6 +76,12 @@ public class RayController : MonoBehaviour
         {
             ChangeAggressionMode();
         }
+
+        sunSprite.color = Color.Lerp(sunSprite.color, targetSunColor, Time.deltaTime * colorChangeSpeed);
+        raySprite.color = Color.Lerp(raySprite.color, targetRayColor, Time.deltaTime * colorChangeSpeed);
+
+        transform.localScale = Vector3.Lerp(transform.localScale, targetRayScale, Time.deltaTime * colorChangeSpeed);
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -92,11 +130,17 @@ public class RayController : MonoBehaviour
     public void TurnAggressiveModeOn()
     {
         isAggressive = true;
+        targetSunColor = aggressiveSunColor;
+        targetRayColor = aggressiveRayColor;
+        targetRayScale = aggressiveRayScale;
         StartCoroutine(StartSounds());
     }
     public void TurnAggressiveModeOff()
     {
         isAggressive = false;
+        targetSunColor = startSunColor;
+        targetRayColor = startRayColor;
+        targetRayScale = startRayScale;
         idleRay.Stop();
         startRay.Stop();
         stopRay.Play();        
