@@ -6,15 +6,36 @@ public class DachaController : MonoBehaviour
 {
     public float maxHealth = 100;
     public float currentHealth;
+    public float frostDamage = 100;
     private bool isHealed = false;
     private bool isDamaged;
+    private bool isFrostDamaged;
     private float missingHealth;
-    public bool isDead;
+    private bool isDead;
+    private bool isFrosted = true;
+    private Coroutine frostRoutine;
+
+    public GameObject snowIcon;
 
     private void Start()
     {
         currentHealth = maxHealth; // Устанавливаем на старте текущее здоровье равным максимальному
         isDead = false;
+        snowIcon.SetActive(false);
+        frostRoutine = StartCoroutine(Frosting());
+    }
+
+    private void Update()
+    {
+        if (isFrosted)
+        {
+            snowIcon.SetActive(true);
+            DealRateFrostDamage(frostDamage);
+        }
+        else
+        {
+            snowIcon.SetActive(false);
+        }
     }
     public void Heal(float healCount)
     {
@@ -40,6 +61,14 @@ public class DachaController : MonoBehaviour
         }
     }
 
+    public void DealRateFrostDamage(float damageCount)
+    {
+        if (isFrostDamaged == false)
+        {
+            StartCoroutine(FrostDamageCoroutine(damageCount));
+        }
+    }
+
     private void Die()
     {
         Debug.Log("Game Over");
@@ -51,8 +80,12 @@ public class DachaController : MonoBehaviour
 
     IEnumerator HealCoroutine(float healCount)
     {
+        StopCoroutine(frostRoutine);
+
+        isFrosted = false;
         isHealed = true;
         missingHealth = maxHealth - currentHealth;
+        healCount = healCount / 10;
         if (missingHealth >= healCount)
         {
             currentHealth += healCount;
@@ -62,13 +95,16 @@ public class DachaController : MonoBehaviour
             healCount = missingHealth;
             currentHealth += healCount;
         }
-        Debug.Log("Dacha current health: " + currentHealth + " Damage count: " + healCount);
-        yield return new WaitForSeconds(1f); // продолжить примерно через 100ms
+        yield return new WaitForSeconds(0.1f);
         isHealed = false;
+        frostRoutine = StartCoroutine(Frosting());
+
     }
 
     IEnumerator DamageCoroutine(float damageCount)
     {
+        StopCoroutine(frostRoutine);
+        isFrosted = false;
         isDamaged = true;
 
         if (currentHealth < damageCount)
@@ -77,20 +113,58 @@ public class DachaController : MonoBehaviour
         }
         else
         {
+            damageCount = damageCount / 10;
             currentHealth -= damageCount;
         }
-        Debug.Log("Dacha health: " + currentHealth + " Damage count: " + damageCount);
         if (currentHealth <= 0)
         {
             Die();
         }
-        yield return new WaitForSeconds(0.5f); // продолжить примерно через 100ms
+
+        yield return new WaitForSeconds(0.1f); // продолжить примерно через 100ms
         isDamaged = false;
+        frostRoutine = StartCoroutine(Frosting());
+    }
+
+    IEnumerator FrostDamageCoroutine(float damageCount)
+    {
+        isFrostDamaged = true;
+
+        if (currentHealth < damageCount)
+        {
+            currentHealth -= currentHealth;
+        }
+        else
+        {
+            damageCount = damageCount / 10;
+            currentHealth -= damageCount;
+        }
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+
+        yield return new WaitForSeconds(0.1f);
+        isFrostDamaged = false;
     }
 
     public float GetCurrentHealth()
     {
         return currentHealth;
+    }
+
+    IEnumerator Frosting()
+    {
+        yield return new WaitForSeconds(3f);
+        isFrosted = true;
+        yield return new WaitForSeconds(0.1f);
+        isFrosted = false;
+        yield return new WaitForSeconds(0.9f);
+        isFrosted = true;
+        yield return new WaitForSeconds(0.1f);
+        isFrosted = false;
+        yield return new WaitForSeconds(0.9f);        
+        isFrosted = true;
     }
 
     public bool GetIsDead()
