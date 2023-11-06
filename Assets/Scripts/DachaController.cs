@@ -166,4 +166,9 @@ public class DachaController : MonoBehaviour
         yield return new WaitForSeconds(0.9f);        
         isFrosted = true;
     }
+
+    public bool GetIsDead()
+    {
+        return isDead;
+    }
 }
