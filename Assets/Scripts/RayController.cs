@@ -31,6 +31,12 @@ public class RayController : MonoBehaviour
     private Vector3 targetRayScale;
 
     public GameObject strikeAnimation;
+    bool isAnimationInstantiating;
+    public GameObject animationPrefab;
+    private Quaternion spawnPosition;
+    public GameObject sun;
+    private float randomSunsEuelerZ;
+
     private void Start()
     {
         startSunColor = sunSprite.color;
@@ -85,15 +91,10 @@ public class RayController : MonoBehaviour
 
         transform.localScale = Vector3.Lerp(transform.localScale, targetRayScale, Time.deltaTime * colorChangeSpeed);
 
-        if (isAggressive)
+        if (isAggressive == true && isAnimationInstantiating == false)
         {
-            strikeAnimation.SetActive(true);
-        }
-        else
-        {
-            strikeAnimation.SetActive(false);
-        }
-
+            StartCoroutine(AnimateStrike());
+        }        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -187,5 +188,16 @@ public class RayController : MonoBehaviour
     public bool GetIsAggressive()
     {
         return isAggressive;
+    }
+
+    IEnumerator AnimateStrike()
+    {
+        isAnimationInstantiating = true;
+        randomSunsEuelerZ = sun.transform.rotation.eulerAngles.z + Random.Range(-10, 10);
+        spawnPosition = Quaternion.Euler(new Vector3(sun.transform.rotation.eulerAngles.x, sun.transform.rotation.eulerAngles.y, randomSunsEuelerZ));
+        Instantiate(animationPrefab, new Vector3(0, 0, 0), spawnPosition);
+
+        yield return new WaitForSeconds(0.5f);
+        isAnimationInstantiating = false;
     }
 }
