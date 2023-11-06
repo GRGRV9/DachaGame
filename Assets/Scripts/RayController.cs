@@ -30,7 +30,7 @@ public class RayController : MonoBehaviour
     private Vector3 aggressiveRayScale;
     private Vector3 targetRayScale;
 
-
+    public GameObject strikeAnimation;
     private void Start()
     {
         startSunColor = sunSprite.color;
@@ -84,6 +84,15 @@ public class RayController : MonoBehaviour
         raySprite.color = Color.Lerp(raySprite.color, targetRayColor, Time.deltaTime * colorChangeSpeed);
 
         transform.localScale = Vector3.Lerp(transform.localScale, targetRayScale, Time.deltaTime * colorChangeSpeed);
+
+        if (isAggressive)
+        {
+            strikeAnimation.SetActive(true);
+        }
+        else
+        {
+            strikeAnimation.SetActive(false);
+        }
 
     }
 
